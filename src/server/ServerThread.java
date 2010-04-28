@@ -70,7 +70,7 @@ public class ServerThread extends Thread {
 
     private void sendToOne(Message msg) {
         for (ClientThread client : clients) {
-            if (client.getNick().equals(msg.getTo())) {
+            if (client.getNick().equals(msg.getTo()) || client.getNick().equals(msg.getFrom())) {
                 client.send(msg);
                 break;
             }
