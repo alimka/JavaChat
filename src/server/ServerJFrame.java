@@ -25,11 +25,6 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerInterface 
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Serwer");
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
-        });
 
         jTextArea.setColumns(20);
         jTextArea.setRows(5);
@@ -52,10 +47,6 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerInterface 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_formWindowClosed
-
     private void jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActionPerformed
         if (!connected) {
             try {
@@ -75,10 +66,6 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerInterface 
             connected = false;
         }
     }//GEN-LAST:event_jButtonActionPerformed
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_formWindowClosed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
