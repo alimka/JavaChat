@@ -6,6 +6,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ServerThread extends Thread {
 
@@ -22,7 +24,7 @@ public class ServerThread extends Thread {
 
     @Override
     public void run() {
-        while (true) {
+        while (!interrupted()) {
             try {
                 ClientThread client = new ClientThread(serverSocket.accept(), this);
                 clients.add(client);
@@ -31,6 +33,16 @@ public class ServerThread extends Thread {
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }
+        }
+
+        for (ClientThread client : clients) {
+            client.interrupt();
+        }
+
+        try {
+            serverSocket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
