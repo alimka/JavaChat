@@ -21,7 +21,6 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerInterface 
         jTextArea = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList = new javax.swing.JList();
-<<<<<<< HEAD
         jButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
