@@ -123,10 +123,11 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
 
     private void connectMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectMIActionPerformed
 
-        String s = (String) JOptionPane.showInputDialog(this, "Podaj adres serwera", JOptionPane.PLAIN_MESSAGE);
-        client = new Client(s, this);
+        String host = (String) JOptionPane.showInputDialog(this, "Podaj adres serwera", JOptionPane.PLAIN_MESSAGE);
+        client = new Client(host, this);
         client.start();
 
+        System.out.println("asd");
         nick = (String) JOptionPane.showInputDialog(this, "Podaj nick", JOptionPane.PLAIN_MESSAGE);
         try {
             client.sendMessage(new Message(nick));

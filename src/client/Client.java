@@ -27,13 +27,17 @@ public class Client extends Thread {
     
     private String txt;
 
-    public Client(String host, ClientChatFrame gui) {
+    public Client(String host, MsgClientInterface gui) {
         try {
             this.gui = gui;
-            InetAddress addr = InetAddress.getByName(host);
+            InetAddress addr = InetAddress.getByName(null); // byl host
+            System.out.println(addr.toString());
             socket = new Socket(addr, port);
-            in = new ObjectInputStream(socket.getInputStream());
+            System.out.println("uzyskano socket");
             out = new ObjectOutputStream(socket.getOutputStream());
+            System.out.println("uzyskano out");
+            in = new ObjectInputStream(socket.getInputStream());
+            System.out.println("uzyskano in");
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }

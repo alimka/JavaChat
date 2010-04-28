@@ -9,22 +9,27 @@ import java.util.LinkedList;
 
 public class ServerThread extends Thread {
 
-    private ServerSocket s;
+    private ServerSocket serverSocket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
-    private LinkedList<ClientThread> clients;
+    private LinkedList<ClientThread> clients = new LinkedList<ClientThread>();
+    private final ServerInterface serverGUI;
 
-    ServerThread(int port) throws IOException {
-        s = new ServerSocket(port);
+    ServerThread(int port, ServerInterface serverGUI) throws IOException {
+        serverSocket = new ServerSocket(port);
+        this.serverGUI = serverGUI;
     }
 
     @Override
     public void run() {
         while (true) {
             try {
-                ClientThread client = new ClientThread(s.accept(), this);
+                ClientThread client = new ClientThread(serverSocket.accept(), this);
                 clients.add(client);
+                client.start();
+                System.out.println("Dołączył klient " + client.toString());
             } catch (IOException ex) {
+                System.err.println(ex.getMessage());
             }
         }
     }
@@ -39,6 +44,7 @@ public class ServerThread extends Thread {
         } else {
             sendToOne(msg);
         }
+        serverGUI.printMessage(msg);
     }
 
     public void disconnect() {

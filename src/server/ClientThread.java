@@ -6,21 +6,31 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+/**
+ *
+ * @author delor
+ */
 public class ClientThread extends Thread {
 
     private String nick;
-    private Socket s;
+    private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private ServerThread server;
 
-    public ClientThread(Socket s, ServerThread server) {
-        this.s = s;
+    /**
+     * 
+     * @param socket
+     * @param server
+     */
+    public ClientThread(Socket socket, ServerThread server) {
+        this.socket = socket;
         this.server = server;
         try {
-            in = new ObjectInputStream(s.getInputStream());
-            out = new ObjectOutputStream(s.getOutputStream());
+            out = new ObjectOutputStream(socket.getOutputStream());
+            in = new ObjectInputStream(socket.getInputStream());
         } catch (IOException ex) {
+            System.err.println(ex.getMessage());
         }
     }
 
@@ -36,10 +46,19 @@ public class ClientThread extends Thread {
         }
     }
 
+    /**
+     * Zwraca nazwę klenta.
+     * @return nazwę danego klienta
+     */
     public String getNick() {
         return nick;
     }
 
+
+    /**
+     * Wysyła wiadomość do klienta.
+     * @param msg wiadomość do wysłania
+     */
     public synchronized void send(Message msg) {
         try {
             out.writeObject(msg);
