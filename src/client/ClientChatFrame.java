@@ -1,20 +1,46 @@
 package client;
 
 import clientserver.Message;
+import java.awt.Color;
+import java.awt.Font;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+// import javax.print.attribute.AttributeSet;
 import javax.swing.JOptionPane;
+import javax.swing.JTextPane;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
 
 public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInterface {
+
     private Client client;
+    private Font font;
 
     /** Creates new form ClientChatFrame */
     public ClientChatFrame() {
         initComponents();
+        font = new Font("Serif", Font.BOLD, 14);
+        setDefaultJTextPaneFont(colorTextPane, font);
+    }
+
+    public static void setDefaultJTextPaneFont(JTextPane jtp, Font font) {
+        MutableAttributeSet attrs = jtp.getInputAttributes();
+
+        StyleConstants.setFontFamily(attrs, font.getFamily());
+        StyleConstants.setFontSize(attrs, font.getSize());
+        StyleConstants.setItalic(attrs, (font.getStyle() & Font.ITALIC) != 0);
+        StyleConstants.setBold(attrs, (font.getStyle() & Font.BOLD) != 0);
+
+        StyledDocument doc = jtp.getStyledDocument();
+        doc.setCharacterAttributes(0, doc.getLength() + 1, attrs, false);
     }
 
     /** This method is called from within the constructor to
@@ -31,7 +57,7 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
         jScrollPane2 = new javax.swing.JScrollPane();
         jList = new javax.swing.JList();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPane = new javax.swing.JTextPane();
+        colorTextPane = new client.ColorTextPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         connectMI = new javax.swing.JMenuItem();
@@ -57,8 +83,7 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
 
         getContentPane().add(jScrollPane2, java.awt.BorderLayout.LINE_END);
 
-        jTextPane.setEditable(false);
-        jScrollPane1.setViewportView(jTextPane);
+        jScrollPane1.setViewportView(colorTextPane);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -128,6 +153,7 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
 
         System.out.println("asd");
         nick = (String) JOptionPane.showInputDialog(this, "Podaj nick", JOptionPane.PLAIN_MESSAGE);
+        setTitle("Client: " + nick);
         try {
             client.sendMessage(new Message(nick));
         } catch (IOException ex) {
@@ -151,6 +177,7 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private client.ColorTextPane colorTextPane;
     private javax.swing.JMenuItem connectMI;
     private javax.swing.JMenuItem disconnectMI;
     private javax.swing.JDialog jDialog1;
@@ -161,9 +188,7 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField;
-    private javax.swing.JTextPane jTextPane;
     // End of variables declaration//GEN-END:variables
-
     private int port = 6666;
     private Socket socket;
     private String nick;
@@ -171,7 +196,15 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
     private ObjectOutputStream out;
 
     public void showMessage(Message msg) {
-        String txt = msg.getFrom() + ": " + msg.getMessage();
-        jTextPane.setText(txt);
+        String txt = null;
+        if (msg.getTo() != null) {
+            txt = msg.getFrom() + " -> " + msg.getTo() + ": " + msg.getMessage() + "\n";
+            colorTextPane.append(Color.blue, txt);
+        } else {
+            txt = msg.getFrom() + ": " + msg.getMessage() + "\n";
+            colorTextPane.append(Color.black, txt);
+        }
+
     }
+
 }
