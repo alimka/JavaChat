@@ -45,5 +45,9 @@ public class Message implements Serializable {
         from = name;
     }
 
+    @Override
+    public String toString() {
+        return "From: " + from + ", To: " + to + ", Msg: " + message;
+    }
 
 }

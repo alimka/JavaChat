@@ -62,7 +62,6 @@ public class Client extends Thread {
         while (true) {
             try {
                 Message msg = (Message) in.readObject();
-                // txt = msg.getMessage();
                 gui.showMessage(msg);
             } catch (IOException ex) {
                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);

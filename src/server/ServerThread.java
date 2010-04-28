@@ -35,6 +35,7 @@ public class ServerThread extends Thread {
     }
 
     public synchronized void processMessage(Message msg) {
+        serverGUI.printMessage(msg);
         if (msg.getTo() == null) {
             if (msg.getMessage() == null) {
                 // TODO przemyśleć jak zorganizować zmianę nicka
@@ -44,7 +45,6 @@ public class ServerThread extends Thread {
         } else {
             sendToOne(msg);
         }
-        serverGUI.printMessage(msg);
     }
 
     public void disconnect() {

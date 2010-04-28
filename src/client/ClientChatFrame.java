@@ -9,10 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author delor
- */
 public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInterface {
     private Client client;
 
@@ -104,19 +100,24 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
                 String to = null;
                 String[] p;
                 String txt = null;
-                if (msg.startsWith("\\")) {
-                    p = msg.split(" ", 2);
+                if (msg.startsWith("/msg")) {
+                    p = msg.split(" ", 3);
+                    for (String s : p) {
+                        System.out.println(s);
+                    }
                     m.setFrom(nick);
-                    m.setTo(to = p[0].substring(1));
-                    m.setMessage(p[1]);
+                    m.setTo(p[1]);
+                    m.setMessage(p[2]);
                 } else {
                     m.setFrom(nick);
                     m.setMessage(msg);
                 }
+                System.out.println(m.toString());
                 client.sendMessage(m);
                 jTextField.setText("");
             } catch (IOException ex) {
-                Logger.getLogger(ClientChatFrame.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(ClientChatFrame.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Nie działa ENTER");
             }
         }
     }//GEN-LAST:event_jTextFieldKeyPressed
@@ -173,6 +174,6 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
 
     public void showMessage(Message msg) {
         String txt = msg.getFrom() + ": " + msg.getMessage();
-        jTextArea.append(msg + "\n");
+        jTextArea.append(txt + "\n");
     }
 }

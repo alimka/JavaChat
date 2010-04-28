@@ -6,6 +6,7 @@
 package client;
 
 import clientserver.Message;
+import java.util.LinkedList;
 
 /**
  *
@@ -14,5 +15,6 @@ import clientserver.Message;
 public interface MsgClientInterface {
 
     public void showMessage(Message msg);
+    //public void showUsers(LinkedList<String> clientNicks);
 
 }
