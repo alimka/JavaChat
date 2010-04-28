@@ -124,7 +124,7 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
 
     private void connectMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectMIActionPerformed
 
-        String host = (String) JOptionPane.showInputDialog(this, "Podaj adres serwera", JOptionPane.PLAIN_MESSAGE);
+        String host = (String) JOptionPane.showInputDialog(this, "Podaj adres serwera", null, JOptionPane.PLAIN_MESSAGE, null, null, "127.0.0.1");
         client = new Client(host, this);
         client.start();
 

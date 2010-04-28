@@ -21,6 +21,7 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerInterface 
         jTextArea = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList = new javax.swing.JList();
+<<<<<<< HEAD
         jButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -75,6 +76,10 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerInterface 
             connected = false;
         }
     }//GEN-LAST:event_jButtonActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
