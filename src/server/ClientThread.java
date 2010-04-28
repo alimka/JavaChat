@@ -34,23 +34,25 @@ public class ClientThread extends Thread {
 
     @Override
     public void run() {
-        while (!interrupted()) {
-            try {
+        try {
+            while (!interrupted()) {
                 Message message = (Message) in.readObject();
+                System.out.println("odebrano wiadomosc");
                 nick = message.getFrom();
                 server.processMessage(message);
-            } catch (IOException ex) {
-                Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        try {
-            in.close();
-            out.close();
-            socket.close();
         } catch (IOException ex) {
             Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                out.close();
+                in.close();
+                socket.close();
+            } catch (IOException ex) {
+                Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
