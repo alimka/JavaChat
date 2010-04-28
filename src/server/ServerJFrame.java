@@ -34,7 +34,7 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerInterface 
 
         jScrollPane2.setViewportView(jList);
 
-        getContentPane().add(jScrollPane2, java.awt.BorderLayout.LINE_END);
+        getContentPane().add(jScrollPane2, java.awt.BorderLayout.EAST);
 
         jButton.setText("Connect");
         jButton.addActionListener(new java.awt.event.ActionListener() {
@@ -42,7 +42,7 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerInterface 
                 jButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton, java.awt.BorderLayout.PAGE_START);
+        getContentPane().add(jButton, java.awt.BorderLayout.NORTH);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
