@@ -72,7 +72,6 @@ public class ServerThread extends Thread {
         for (ClientThread client : clients) {
             if (client.getNick().equals(msg.getTo()) || client.getNick().equals(msg.getFrom())) {
                 client.send(msg);
-                break;
             }
         }
     }
