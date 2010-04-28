@@ -4,9 +4,7 @@ import clientserver.Message;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -15,7 +13,8 @@ import javax.swing.JOptionPane;
  *
  * @author delor
  */
-public class ClientChatFrame extends javax.swing.JFrame {
+public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInterface {
+    private Client client;
 
     /** Creates new form ClientChatFrame */
     public ClientChatFrame() {
@@ -99,44 +98,45 @@ public class ClientChatFrame extends javax.swing.JFrame {
 
     private void jTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldKeyPressed
         if (evt.getKeyCode() == 10) {
-            String msg = jTextField.getText();
-            String to = null;
-            String[] p;
-            String txt = null;
-            if (msg.startsWith("\\")) {
-                p = msg.split(" ", 2);
-                to = p[0].substring(1);
-                txt = p[1];
+            try {
+                String msg = jTextField.getText();
+                Message m = new Message(nick);
+                String to = null;
+                String[] p;
+                String txt = null;
+                if (msg.startsWith("\\")) {
+                    p = msg.split(" ", 2);
+                    m.setFrom(nick);
+                    m.setTo(to = p[0].substring(1));
+                    m.setMessage(p[1]);
+                } else {
+                    m.setFrom(nick);
+                    m.setMessage(msg);
+                }
+                client.sendMessage(m);
+                jTextField.setText("");
+            } catch (IOException ex) {
+                Logger.getLogger(ClientChatFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-            jTextArea.append(msg + "\n");
-            jTextField.setText("");
         }
     }//GEN-LAST:event_jTextFieldKeyPressed
 
     private void connectMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectMIActionPerformed
-        try {
-            String s = (String) JOptionPane.showInputDialog(this, "Podaj adres serwera", JOptionPane.PLAIN_MESSAGE);
-            System.out.println(s);
-            InetAddress addr = InetAddress.getByName(s);
-            socket = new Socket(addr, port);
-            in = new ObjectInputStream(socket.getInputStream());
-            out = new ObjectOutputStream(socket.getOutputStream());
-        } catch (UnknownHostException ex) {
-            JOptionPane.showMessageDialog(this, "Nieznany host", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Błąd odczytu z socketa", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+
+        String s = (String) JOptionPane.showInputDialog(this, "Podaj adres serwera", JOptionPane.PLAIN_MESSAGE);
+        client = new Client(s, this);
+        client.start();
 
         nick = (String) JOptionPane.showInputDialog(this, "Podaj nick", JOptionPane.PLAIN_MESSAGE);
         try {
-            out.writeObject(new Message(nick));
+            client.sendMessage(new Message(nick));
         } catch (IOException ex) {
             Logger.getLogger(ClientChatFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_connectMIActionPerformed
 
     private void disconnectMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectMIActionPerformed
-        // TODO add your handling code here:
+        client.disconnect();
     }//GEN-LAST:event_disconnectMIActionPerformed
 
     /**
@@ -163,9 +163,15 @@ public class ClientChatFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea;
     private javax.swing.JTextField jTextField;
     // End of variables declaration//GEN-END:variables
+
     private int port = 6666;
     private Socket socket;
     private String nick;
     private ObjectInputStream in;
     private ObjectOutputStream out;
+
+    public void showMessage(Message msg) {
+        String txt = msg.getFrom() + ": " + msg.getMessage();
+        jTextArea.append(msg + "\n");
+    }
 }
