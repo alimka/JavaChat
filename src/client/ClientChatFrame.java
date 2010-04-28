@@ -28,10 +28,10 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
 
         jDialog1 = new javax.swing.JDialog();
         jTextField = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList = new javax.swing.JList();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextPane = new javax.swing.JTextPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         connectMI = new javax.swing.JMenuItem();
@@ -48,13 +48,6 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
         });
         getContentPane().add(jTextField, java.awt.BorderLayout.PAGE_END);
 
-        jTextArea.setColumns(20);
-        jTextArea.setEditable(false);
-        jTextArea.setRows(5);
-        jScrollPane1.setViewportView(jTextArea);
-
-        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
         jList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "asd" };
             public int getSize() { return strings.length; }
@@ -63,6 +56,11 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
         jScrollPane2.setViewportView(jList);
 
         getContentPane().add(jScrollPane2, java.awt.BorderLayout.LINE_END);
+
+        jTextPane.setEditable(false);
+        jScrollPane1.setViewportView(jTextPane);
+
+        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jMenu1.setText("File");
 
@@ -162,8 +160,8 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea;
     private javax.swing.JTextField jTextField;
+    private javax.swing.JTextPane jTextPane;
     // End of variables declaration//GEN-END:variables
 
     private int port = 6666;
@@ -174,6 +172,6 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
 
     public void showMessage(Message msg) {
         String txt = msg.getFrom() + ": " + msg.getMessage();
-        jTextArea.append(txt + "\n");
+        jTextPane.setText(txt);
     }
 }
