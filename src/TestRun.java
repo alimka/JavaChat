@@ -2,8 +2,17 @@
 import client.ClientChatFrame;
 import server.ServerJFrame;
 
-public class Test {
+/**
+ *
+ * @author delor
+ */
+public class TestRun {
 
+    /**
+     * Klasa służąca do uruchomienia jednego serwera i dwóch klientów w celu
+     * przetestowania aplikacji.
+     * @param args
+     */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
