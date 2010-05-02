@@ -50,10 +50,6 @@ public class Client extends Thread {
         }
     }
 
-    public String setMsg() {
-        return txt;
-    }
-
     @Override
     public void run() {
         while (true) {
