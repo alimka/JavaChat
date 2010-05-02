@@ -8,6 +8,10 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ *
+ * @author delor
+ */
 public class ClientThread extends Thread {
 
     private String nick;

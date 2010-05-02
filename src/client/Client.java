@@ -28,6 +28,11 @@ public class Client extends Thread {
     
     private String txt;
 
+    /**
+     *
+     * @param host
+     * @param gui
+     */
     public Client(String host, MsgClientInterface gui) {
         try {
             this.gui = gui;
@@ -40,6 +45,9 @@ public class Client extends Thread {
         }
     }
 
+    /**
+     *
+     */
     public void disconnect() {
         try {
             in.close();
@@ -66,6 +74,11 @@ public class Client extends Thread {
         }
     }
 
+    /**
+     *
+     * @param msg
+     * @throws IOException
+     */
     public void sendMessage(Message msg) throws IOException {
         out.writeObject(msg);
     }

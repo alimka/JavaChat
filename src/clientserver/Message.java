@@ -17,30 +17,58 @@ public class Message implements Serializable {
     private String to = null;
     private String message = null;
 
+    /**
+     *
+     * @return
+     */
     public String getFrom() {
         return from;
     }
 
+    /**
+     *
+     * @param from
+     */
     public void setFrom(String from) {
         this.from = from;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     *
+     * @param message
+     */
     public void setMessage(String message) {
         this.message = message;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getTo() {
         return to;
     }
 
+    /**
+     *
+     * @param to
+     */
     public void setTo(String to) {
         this.to = to;
     }
 
+    /**
+     *
+     * @param name
+     */
     public Message(String name) {
         from = name;
     }

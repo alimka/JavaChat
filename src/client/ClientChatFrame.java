@@ -19,6 +19,10 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
+/**
+ *
+ * @author delor
+ */
 public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInterface {
 
     private Client client;
@@ -31,6 +35,11 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
         setDefaultJTextPaneFont(colorTextPane, font);
     }
 
+    /**
+     *
+     * @param jtp
+     * @param font
+     */
     public static void setDefaultJTextPaneFont(JTextPane jtp, Font font) {
         MutableAttributeSet attrs = jtp.getInputAttributes();
 
@@ -195,6 +204,10 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
     private ObjectInputStream in;
     private ObjectOutputStream out;
 
+    /**
+     *
+     * @param msg
+     */
     public void showMessage(Message msg) {
         String txt = null;
         if (msg.getTo() != null) {

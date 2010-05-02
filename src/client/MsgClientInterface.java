@@ -14,6 +14,10 @@ import java.util.LinkedList;
  */
 public interface MsgClientInterface {
 
+    /**
+     *
+     * @param msg
+     */
     public void showMessage(Message msg);
     //public void showUsers(LinkedList<String> clientNicks);
 

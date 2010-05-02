@@ -9,6 +9,10 @@ import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ *
+ * @author delor
+ */
 public class ServerThread extends Thread {
 
     private ServerSocket serverSocket;
@@ -46,6 +50,10 @@ public class ServerThread extends Thread {
         }
     }
 
+    /**
+     *
+     * @param msg
+     */
     public synchronized void processMessage(Message msg) {
         serverGUI.printMessage(msg);
         if (msg.getTo() == null) {
@@ -59,6 +67,9 @@ public class ServerThread extends Thread {
         }
     }
 
+    /**
+     *
+     */
     public void disconnect() {
     }
 

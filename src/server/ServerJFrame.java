@@ -3,6 +3,10 @@ package server;
 import clientserver.Message;
 import java.io.IOException;
 
+/**
+ *
+ * @author delor
+ */
 public class ServerJFrame extends javax.swing.JFrame implements ServerInterface {
 
     private ServerThread server;
@@ -67,6 +71,10 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerInterface 
         }
     }//GEN-LAST:event_jButtonActionPerformed
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
@@ -84,6 +92,10 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerInterface 
     // End of variables declaration//GEN-END:variables
     private int port = 6666;
 
+    /**
+     *
+     * @param msg
+     */
     public void printMessage(Message msg) {
         jTextArea.append(msg.getFrom() + " -> " + msg.getTo() + ": " + msg.getMessage() + "\n");
     }
