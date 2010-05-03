@@ -2,6 +2,8 @@ package server;
 
 import clientserver.Message;
 import java.io.IOException;
+import java.util.Enumeration;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -12,6 +14,7 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerGUI {
     /** Creates new form ServerJFrame */
     public ServerJFrame() {
         initComponents();
+        jList.setModel(listModel);
     }
 
     @SuppressWarnings("unchecked")
@@ -80,6 +83,7 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerGUI {
     private int port = 6666;
     private ServerThread serverThread;
     private boolean connected = false;
+    private DefaultListModel listModel = new DefaultListModel();
 
     private void connect() {
         try {
@@ -99,6 +103,18 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerGUI {
         jTextArea.append("Server offline\n");
         connectButton.setText("Connect");
         connected = false;
+    }
+
+    public void processMessage(Message msg) {
+        printMessage(msg);
+        switch(msg.type()) {
+            case JOIN:
+                addUser(msg.getFrom());
+                break;
+            case LEAVE:
+                removeUser(msg.getTo());
+                break;
+        }
     }
 
     /**
@@ -123,5 +139,34 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerGUI {
                 jTextArea.append("ERROR Nieznany format wiadomości: " + msg.toString() + "\n");
                 break;
         }
+    }
+
+    /**
+     * Dodaje użytkownika z listy.
+     * @param user użytkownik do dodania
+     */
+    public void addUser(String user) {
+        listModel.addElement(user);
+    }
+
+    /**
+     * Usuwa użytkownika z listy.
+     * @param user użytkownik do usunięcia
+     */
+    public void removeUser(String user) {
+        for (int i = 0; i < listModel.getSize(); ++i) {
+            if (user.equals(listModel.get(i))) {
+                listModel.remove(i);
+                break;
+            }
+        }
+    }
+
+    public String getUsersList() {
+        Enumeration<String> users = (Enumeration<String>) listModel.elements();
+        StringBuilder usersList = new StringBuilder();
+        while (users.hasMoreElements())
+            usersList.append(users.nextElement() + ",");
+        return usersList.toString();
     }
 }
