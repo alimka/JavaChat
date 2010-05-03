@@ -32,6 +32,9 @@ public class ServerThread extends Thread {
                 clients.add(client);
                 client.start();
                 System.out.println("Dołączył klient " + client.toString());
+                Message msg = new Message();
+                msg.setMessage(serverGUI.getUsersList());
+                client.send(msg);
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }
@@ -53,7 +56,7 @@ public class ServerThread extends Thread {
      * @param msg wiadomość do wysłania
      */
     public synchronized void processMessage(Message msg) {
-        serverGUI.printMessage(msg);
+        serverGUI.processMessage(msg);
         switch (msg.type()) {
             case JOIN:
                 sendToAll(msg);
