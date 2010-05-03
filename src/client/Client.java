@@ -79,6 +79,10 @@ public class Client extends Thread {
                         break;
                     case USERLIST:
                         gui.showUsers(msg.getMessage());
+                        break;
+                    case DISCONNECT:
+                        disconnect();
+                        break;
                 }
             } catch (EOFException ex) {
                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
