@@ -87,14 +87,6 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-<<<<<<< HEAD
-        jList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "aaa" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-=======
->>>>>>> 4372f7bf6834e9f8cd45cf2ee9368994044d2f84
         jScrollPane2.setViewportView(jList);
 
         getContentPane().add(jScrollPane2, java.awt.BorderLayout.LINE_END);
@@ -227,9 +219,7 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
     }
 
     public void showUsers(Vector<String> clientNicks) {
-        listModel = new DefaultListModel();
-        jList = new JList(listModel);
-
+        System.out.println("Show User");
         for (int i = 0; i < clientNicks.size(); ++i) {
             listModel.add(i, clientNicks.get(i));
         }

@@ -25,7 +25,6 @@ public class Client extends Thread {
     private ObjectOutputStream out;
     private int port = 6666;
     private MsgClientInterface gui;
-    
     private String txt;
 
     /**
@@ -67,14 +66,19 @@ public class Client extends Thread {
                 switch (msg.type()) {
                     case JOIN:
                         gui.addUser(msg.getFrom());
+                        System.out.println("JOIN");
+                        break;
                     case LEAVE:
                         gui.removeUser(msg.getTo());
+                        System.out.println("LEAVE");
+                        break;
                     case PRIVATE:
                         gui.showMessage(msg);
+                        break;
                     case PUBLIC:
                         gui.showMessage(msg);
+                        break;
                 }
-                
             } catch (EOFException ex) {
                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
