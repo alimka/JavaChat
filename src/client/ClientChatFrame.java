@@ -25,15 +25,14 @@ import javax.swing.text.StyledDocument;
  */
 public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInterface {
 
-    private Client client;
-    private Font font;
-
     /** Creates new form ClientChatFrame */
     public ClientChatFrame() {
         initComponents();
         pomUserList();
         font = new Font("Serif", Font.BOLD, 14);
         setDefaultJTextPaneFont(colorTextPane, font);
+        listModel = new DefaultListModel();
+        jList.setModel(listModel);
     }
 
     /**
@@ -88,11 +87,14 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
+<<<<<<< HEAD
         jList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "aaa" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+=======
+>>>>>>> 4372f7bf6834e9f8cd45cf2ee9368994044d2f84
         jScrollPane2.setViewportView(jList);
 
         getContentPane().add(jScrollPane2, java.awt.BorderLayout.LINE_END);
@@ -204,6 +206,9 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
     private String nick;
     private ObjectInputStream in;
     private ObjectOutputStream out;
+    private Client client;
+    private Font font;
+    private DefaultListModel listModel;
 
     /**
      *
@@ -221,35 +226,26 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
 
     }
 
-    DefaultListModel model;
     public void showUsers(Vector<String> clientNicks) {
-        model = new DefaultListModel();
-        jList = new JList(model);
-        
-        for (int i = 0; i < clientNicks.size(); ++i) {
-            model.add(i, clientNicks.get(i));
-        }
-    }
+        listModel = new DefaultListModel();
+        jList = new JList(listModel);
 
-    public void pomUserList() {
-        Vector<String> clientNicks = new Vector<String>();
-        showUsers(clientNicks);
+        for (int i = 0; i < clientNicks.size(); ++i) {
+            listModel.add(i, clientNicks.get(i));
+        }
     }
 
     public void addUser(String userNick) {
-        int pos = model.getSize();
-        model.add(pos, userNick);
-        jList = new JList(model);
+        int pos = listModel.getSize();
+        listModel.add(pos, userNick);
     }
 
     public void removeUser(String userNick) {
-        for (int i = 0; i < model.getSize(); ++i) {
-            if (userNick.compareTo((String) model.get(i)) == 0) {
-                model.remove(i);
+        for (int i = 0; i < listModel.getSize(); ++i) {
+            if (userNick.compareTo((String) listModel.get(i)) == 0) {
+                listModel.remove(i);
                 break;
             }
         }
-        jList = new JList(model);
     }
-
 }
