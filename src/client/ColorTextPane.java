@@ -7,6 +7,10 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
+/**
+ *
+ * @author Kamila Turek
+ */
 public class ColorTextPane extends JTextPane {
 
     public void append(Color c, String s) { // better implementation--uses StyleContext

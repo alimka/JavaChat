@@ -2,26 +2,23 @@ package server;
 
 import clientserver.Message;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  *
- * @author delor
+ * @author Bartłomiej Piech
  */
 public class ServerThread extends Thread {
 
     private ServerSocket serverSocket;
-    private ObjectInputStream in;
-    private ObjectOutputStream out;
     private LinkedList<ClientThread> clients = new LinkedList<ClientThread>();
-    private final ServerInterface serverGUI;
+    private final ServerGUI serverGUI;
 
-    ServerThread(int port, ServerInterface serverGUI) throws IOException {
+    ServerThread(int port, ServerGUI serverGUI) throws IOException {
         serverSocket = new ServerSocket(port);
         this.serverGUI = serverGUI;
     }
@@ -30,7 +27,8 @@ public class ServerThread extends Thread {
     public void run() {
         while (!interrupted()) {
             try {
-                ClientThread client = new ClientThread(serverSocket.accept(), this);
+                Socket socket = serverSocket.accept();
+                ClientThread client = new ClientThread(socket, this);
                 clients.add(client);
                 client.start();
                 System.out.println("Dołączył klient " + client.toString());
@@ -74,13 +72,14 @@ public class ServerThread extends Thread {
         }
     }
 
+    public void disconnect() {
+        //
+    }
+
     /**
      * Wysyła wiadomość do wszystkich klientów.
      * @param msg wiadomość do wysłania
      */
-    public void disconnect() {
-    }
-
     private void sendToAll(Message msg) {
         for (ClientThread client : clients) {
             client.send(msg);
