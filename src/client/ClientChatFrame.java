@@ -7,16 +7,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 // import javax.print.attribute.AttributeSet;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
-import javax.swing.text.AttributeSet;
 import javax.swing.text.MutableAttributeSet;
-import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
 /**
@@ -25,14 +25,13 @@ import javax.swing.text.StyledDocument;
  */
 public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInterface {
 
-    private Client client;
-    private Font font;
-
     /** Creates new form ClientChatFrame */
     public ClientChatFrame() {
         initComponents();
         font = new Font("Serif", Font.BOLD, 14);
         setDefaultJTextPaneFont(colorTextPane, font);
+        listModel = new DefaultListModel();
+        jList.setModel(listModel);
     }
 
     /**
@@ -63,10 +62,10 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
 
         jDialog1 = new javax.swing.JDialog();
         jTextField = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList = new javax.swing.JList();
         jScrollPane1 = new javax.swing.JScrollPane();
         colorTextPane = new client.ColorTextPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jList = new javax.swing.JList();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         connectMI = new javax.swing.JMenuItem();
@@ -83,18 +82,13 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
         });
         getContentPane().add(jTextField, java.awt.BorderLayout.PAGE_END);
 
-        jList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "asd" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(jList);
-
-        getContentPane().add(jScrollPane2, java.awt.BorderLayout.LINE_END);
-
         jScrollPane1.setViewportView(colorTextPane);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        jScrollPane2.setViewportView(jList);
+
+        getContentPane().add(jScrollPane2, java.awt.BorderLayout.LINE_END);
 
         jMenu1.setText("File");
 
@@ -203,6 +197,9 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
     private String nick;
     private ObjectInputStream in;
     private ObjectOutputStream out;
+    private Client client;
+    private Font font;
+    private DefaultListModel listModel;
 
     /**
      *
@@ -220,4 +217,26 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
 
     }
 
+    public void showUsers(Vector<String> clientNicks) {
+        listModel = new DefaultListModel();
+        jList = new JList(listModel);
+
+        for (int i = 0; i < clientNicks.size(); ++i) {
+            listModel.add(i, clientNicks.get(i));
+        }
+    }
+
+    public void addUser(String userNick) {
+        int pos = listModel.getSize();
+        listModel.add(pos, userNick);
+    }
+
+    public void removeUser(String userNick) {
+        for (int i = 0; i < listModel.getSize(); ++i) {
+            if (userNick.compareTo((String) listModel.get(i)) == 0) {
+                listModel.remove(i);
+                break;
+            }
+        }
+    }
 }
