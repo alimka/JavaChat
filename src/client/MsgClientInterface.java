@@ -6,7 +6,7 @@
 package client;
 
 import clientserver.Message;
-import java.util.LinkedList;
+import java.util.Vector;
 
 /**
  *
@@ -19,6 +19,9 @@ public interface MsgClientInterface {
      * @param msg
      */
     public void showMessage(Message msg);
-    //public void showUsers(LinkedList<String> clientNicks);
+    public void showUsers(Vector<String> clientNicks);
+    public void addUser(String userNick);
+    public void removeUser(String userNick);
+    public void pomUserList();
 
 }

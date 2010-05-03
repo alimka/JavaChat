@@ -28,6 +28,7 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
     /** Creates new form ClientChatFrame */
     public ClientChatFrame() {
         initComponents();
+        pomUserList();
         font = new Font("Serif", Font.BOLD, 14);
         setDefaultJTextPaneFont(colorTextPane, font);
         listModel = new DefaultListModel();
@@ -218,9 +219,7 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
     }
 
     public void showUsers(Vector<String> clientNicks) {
-        listModel = new DefaultListModel();
-        jList = new JList(listModel);
-
+        System.out.println("Show User");
         for (int i = 0; i < clientNicks.size(); ++i) {
             listModel.add(i, clientNicks.get(i));
         }
