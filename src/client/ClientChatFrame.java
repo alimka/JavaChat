@@ -10,7 +10,6 @@ import java.net.Socket;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-// import javax.print.attribute.AttributeSet;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
@@ -70,6 +69,7 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Chat");
+        setMinimumSize(new java.awt.Dimension(300, 64));
 
         jTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -82,9 +82,11 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(100, 131));
+
         jScrollPane2.setViewportView(jList);
 
-        getContentPane().add(jScrollPane2, java.awt.BorderLayout.LINE_END);
+        getContentPane().add(jScrollPane2, java.awt.BorderLayout.EAST);
 
         connectButton.setText("Connect");
         connectButton.addActionListener(new java.awt.event.ActionListener() {

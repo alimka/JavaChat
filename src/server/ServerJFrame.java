@@ -36,6 +36,8 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerInterface 
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(50, 131));
+
         jScrollPane2.setViewportView(jList);
 
         getContentPane().add(jScrollPane2, java.awt.BorderLayout.EAST);
