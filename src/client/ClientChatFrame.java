@@ -206,13 +206,12 @@ public class ClientChatFrame extends javax.swing.JFrame implements ClientGUI {
     }
 
     public void addUser(String user) {
-        int pos = listModel.getSize();
-        listModel.add(pos, user);
+        listModel.addElement(user);
     }
 
     public void removeUser(String user) {
         for (int i = 0; i < listModel.getSize(); ++i) {
-            if (user.compareTo((String) listModel.get(i)) == 0) {
+            if (user.equals(listModel.get(i))) {
                 System.out.println(user + " " + listModel.get(i));
                 listModel.remove(i);
                 break;

@@ -14,9 +14,9 @@ public interface ClientGUI {
      */
     public void showMessage(Message msg);
 
-    public void showUsers(String usersList);
+    public void showUsers(String users);
 
-    public void addUser(String userNick);
+    public void addUser(String user);
 
-    public void removeUser(String userNick);
+    public void removeUser(String user);
 }
