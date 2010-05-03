@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package client;
 
 import clientserver.Message;
@@ -16,26 +12,24 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author alimka
+ * @author Kamila Turek
  */
 public class Client extends Thread {
 
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
-    private int port = 6666;
     private MsgClientInterface gui;
-    private String txt;
 
     /**
      *
      * @param host
      * @param gui
      */
-    public Client(String host, MsgClientInterface gui) {
+    public Client(String host, int port, MsgClientInterface gui) {
         try {
             this.gui = gui;
-            InetAddress addr = InetAddress.getByName(null); // byl host
+            InetAddress addr = InetAddress.getByName(host);
             socket = new Socket(addr, port);
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
