@@ -4,10 +4,6 @@ import clientserver.Message;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -19,9 +15,9 @@ import javax.swing.text.StyledDocument;
 
 /**
  *
- * @author delor
+ * @author Kamila Turek
  */
-public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInterface {
+public class ClientChatFrame extends javax.swing.JFrame implements ClientGUI {
 
     /** Creates new form ClientChatFrame */
     public ClientChatFrame() {
@@ -105,19 +101,15 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
             try {
                 String msg = jTextField.getText();
                 Message m = new Message(nick);
-                String to = null;
                 String[] p;
-                String txt = null;
                 if (msg.startsWith("/msg")) {
                     p = msg.split(" ", 3);
                     for (String s : p) {
                         System.out.println(s);
                     }
-                    m.setFrom(nick);
                     m.setTo(p[1]);
                     m.setMessage(p[2]);
                 } else {
-                    m.setFrom(nick);
                     m.setMessage(msg);
                 }
                 System.out.println(m.toString());
@@ -131,9 +123,14 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
     }//GEN-LAST:event_jTextFieldKeyPressed
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
-        if(!connect) {
-            String host = (String) JOptionPane.showInputDialog(this, "Podaj adres serwera", null, JOptionPane.PLAIN_MESSAGE, null, null, "127.0.0.1");
-            client = new Client(host, this);
+        if (!connect) {
+            String host = (String) JOptionPane.showInputDialog(this,
+                    "Podaj adres serwera", null, JOptionPane.PLAIN_MESSAGE,
+                    null, null, "127.0.0.1");
+            int port = Integer.parseInt((String) JOptionPane.showInputDialog(
+                    this, "Podaj port serwera", null, JOptionPane.PLAIN_MESSAGE,
+                    null, null, "6666"));
+            client = new Client(host, port, this);
             client.start();
 
             nick = (String) JOptionPane.showInputDialog(this, "Podaj nick", JOptionPane.PLAIN_MESSAGE);
@@ -147,10 +144,8 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
             }
         } else {
             try {
-                Message m = new Message(nick);
-                m.setFrom(null);
+                Message m = new Message();
                 m.setTo(nick);
-                m.setMessage(null);
                 client.sendMessage(m);
                 client.disconnect();
                 connect = false;
@@ -182,11 +177,7 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField;
     // End of variables declaration//GEN-END:variables
-    private int port = 6666;
-    private Socket socket;
     private String nick;
-    private ObjectInputStream in;
-    private ObjectOutputStream out;
     private Client client;
     private Font font;
     private DefaultListModel listModel;
@@ -197,34 +188,32 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
      * @param msg
      */
     public void showMessage(Message msg) {
-        String txt = null;
-        if (msg.getTo() != null) {
-            txt = msg.getFrom() + " -> " + msg.getTo() + ": " + msg.getMessage() + "\n";
+        String txt = msg.getFrom() + ": " + msg.getMessage() + "\n";
+        if (msg.type() == Message.MessageType.PRIVATE) {
             colorTextPane.append(Color.blue, txt);
         } else {
-            txt = msg.getFrom() + ": " + msg.getMessage() + "\n";
             colorTextPane.append(Color.black, txt);
         }
 
     }
 
-    public void showUsers(String usersList) {
+    public void showUsers(String users) {
         System.out.println("Show User");
-        String[] users = usersList.split(",");
-        for (int i = 0; i < users.length; ++i) {
-            listModel.add(i, users[i]);
+        String[] usersList = users.split(",");
+        for (int i = 0; i < usersList.length; ++i) {
+            listModel.add(i, usersList[i]);
         }
     }
 
-    public void addUser(String userNick) {
+    public void addUser(String user) {
         int pos = listModel.getSize();
-        listModel.add(pos, userNick);
+        listModel.add(pos, user);
     }
 
-    public void removeUser(String userNick) {
+    public void removeUser(String user) {
         for (int i = 0; i < listModel.getSize(); ++i) {
-            if (userNick.compareTo((String) listModel.get(i)) == 0) {
-                System.out.println(userNick + " " + listModel.get(i));
+            if (user.compareTo((String) listModel.get(i)) == 0) {
+                System.out.println(user + " " + listModel.get(i));
                 listModel.remove(i);
                 break;
             }

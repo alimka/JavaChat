@@ -1,26 +1,22 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package client;
 
 import clientserver.Message;
-import java.util.Vector;
 
 /**
  *
- * @author alimka
+ * @author Kamila Turek
  */
-public interface MsgClientInterface {
+public interface ClientGUI {
 
     /**
      *
      * @param msg
      */
     public void showMessage(Message msg);
-    public void showUsers(String usersList);
-    public void addUser(String userNick);
-    public void removeUser(String userNick);
 
+    public void showUsers(String usersList);
+
+    public void addUser(String userNick);
+
+    public void removeUser(String userNick);
 }

@@ -6,7 +6,7 @@ import clientserver.Message;
  *
  * @author delor
  */
-public interface ServerInterface {
+public interface ServerGUI {
 
     /**
      *
