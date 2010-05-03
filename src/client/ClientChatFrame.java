@@ -1,16 +1,23 @@
 package client;
 
 import clientserver.Message;
+import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory.Default;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 // import javax.print.attribute.AttributeSet;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.MutableAttributeSet;
@@ -63,10 +70,10 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
 
         jDialog1 = new javax.swing.JDialog();
         jTextField = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList = new javax.swing.JList();
         jScrollPane1 = new javax.swing.JScrollPane();
         colorTextPane = new client.ColorTextPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jList = new javax.swing.JList();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         connectMI = new javax.swing.JMenuItem();
@@ -83,18 +90,18 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
         });
         getContentPane().add(jTextField, java.awt.BorderLayout.PAGE_END);
 
+        jScrollPane1.setViewportView(colorTextPane);
+
+        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
         jList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "asd" };
+            String[] strings = { "aaa" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
         jScrollPane2.setViewportView(jList);
 
         getContentPane().add(jScrollPane2, java.awt.BorderLayout.LINE_END);
-
-        jScrollPane1.setViewportView(colorTextPane);
-
-        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jMenu1.setText("File");
 
@@ -218,6 +225,30 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
             colorTextPane.append(Color.black, txt);
         }
 
+    }
+
+    DefaultListModel model;
+    public void showUsers(Vector<String> clientNicks) {
+        model = new DefaultListModel();
+        jList = new JList(model);
+        
+        for (int i = 0; i < clientNicks.size(); ++i) {
+            model.add(i, clientNicks.get(i));
+        }
+    }
+
+    public void addUsers(String userNick) {
+        int pos = model.getSize();
+        model.add(pos, userNick);
+    }
+
+    public void removeUser(String userNick) {
+        for (int i = 0; i < model.getSize(); ++i) {
+            if (userNick.compareTo((String) model.get(i)) == 0) {
+                model.remove(i);
+                break;
+            }
+        }
     }
 
 }
