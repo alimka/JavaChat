@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package clientserver;
 
 import java.io.Serializable;
@@ -13,6 +8,10 @@ import java.io.Serializable;
  */
 public class Message implements Serializable {
 
+    public static enum MessageType {
+
+        JOIN, LEAVE, PRIVATE, PUBLIC, UNKNOWN
+    };
     private String from = null;
     private String to = null;
     private String message = null;
@@ -78,4 +77,19 @@ public class Message implements Serializable {
         return "From: " + from + ", To: " + to + ", Msg: " + message;
     }
 
+    public MessageType type() {
+        if (from != null && to == null && message == null) {
+            return MessageType.JOIN;
+        }
+        if (from == null && to != null && message == null) {
+            return MessageType.LEAVE;
+        }
+        if (from != null && to == null && message != null) {
+            return MessageType.PUBLIC;
+        }
+        if (from != null && to != null && message != null) {
+            return MessageType.PRIVATE;
+        }
+        return MessageType.UNKNOWN;
+    }
 }
