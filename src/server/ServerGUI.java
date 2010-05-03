@@ -4,7 +4,7 @@ import clientserver.Message;
 
 /**
  *
- * @author delor
+ * @author Bartłomiej Piech
  */
 public interface ServerGUI {
 
