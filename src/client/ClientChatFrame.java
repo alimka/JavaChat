@@ -153,6 +153,7 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
                 m.setMessage(null);
                 client.sendMessage(m);
                 client.disconnect();
+                connect = false;
                 connectButton.setText("Connect");
             } catch (IOException ex) {
                 Logger.getLogger(ClientChatFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -207,10 +208,11 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
 
     }
 
-    public void showUsers(Vector<String> clientNicks) {
+    public void showUsers(String usersList) {
         System.out.println("Show User");
-        for (int i = 0; i < clientNicks.size(); ++i) {
-            listModel.add(i, clientNicks.get(i));
+        String[] users = usersList.split(",");
+        for (int i = 0; i < users.length; ++i) {
+            listModel.add(i, users[i]);
         }
     }
 

@@ -19,7 +19,7 @@ public interface MsgClientInterface {
      * @param msg
      */
     public void showMessage(Message msg);
-    public void showUsers(Vector<String> clientNicks);
+    public void showUsers(String usersList);
     public void addUser(String userNick);
     public void removeUser(String userNick);
 

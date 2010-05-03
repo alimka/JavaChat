@@ -77,6 +77,8 @@ public class Client extends Thread {
                     case PUBLIC:
                         gui.showMessage(msg);
                         break;
+                    case USERLIST:
+                        gui.showUsers(msg.getMessage());
                 }
             } catch (EOFException ex) {
                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
