@@ -93,10 +93,26 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerInterface 
     private int port = 6666;
 
     /**
-     *
-     * @param msg
+     * Wyświetla odpowiednio sformatowaną wiadomość w oknie.
+     * @param msg wiadomosc do wyświetlenia w oknie
      */
     public void printMessage(Message msg) {
-        jTextArea.append(msg.getFrom() + " -> " + msg.getTo() + ": " + msg.getMessage() + "\n");
+        switch (msg.type()) {
+            case JOIN:
+                jTextArea.append("Użyszkodnik " + msg.getFrom() + " dołączył do chatu\n");
+                break;
+            case LEAVE:
+                jTextArea.append("Użytkownik " + msg.getTo() + " opuścił chat\n");
+                break;
+            case PRIVATE:
+                jTextArea.append(msg.getFrom() + " -> " + msg.getTo() + ": " + msg.getMessage() + "\n");
+                break;
+            case PUBLIC:
+                jTextArea.append(msg.getFrom() + ": " + msg.getMessage() + "\n");
+                break;
+            case UNKNOWN:
+                jTextArea.append("ERROR Nieznany format wiadomości: " + msg.toString() + "\n");
+                break;
+        }
     }
 }

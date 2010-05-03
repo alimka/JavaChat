@@ -52,23 +52,31 @@ public class ServerThread extends Thread {
 
     /**
      *
-     * @param msg
+     * @param msg wiadomość do wysłania
      */
     public synchronized void processMessage(Message msg) {
         serverGUI.printMessage(msg);
-        if (msg.getTo() == null) {
-            if (msg.getMessage() == null) {
-                // TODO przemyśleć jak zorganizować zmianę nicka
-            } else {
+        switch (msg.type()) {
+            case JOIN:
                 sendToAll(msg);
-            }
-        } else {
-            sendToOne(msg);
+                break;
+            case LEAVE:
+                sendToAll(msg);
+                break;
+            case PRIVATE:
+                sendToOne(msg);
+                break;
+            case PUBLIC:
+                sendToAll(msg);
+                break;
+            case UNKNOWN:
+                break;
         }
     }
 
     /**
-     *
+     * Wysyła wiadomość do wszystkich klientów.
+     * @param msg wiadomość do wysłania
      */
     public void disconnect() {
     }
@@ -79,6 +87,10 @@ public class ServerThread extends Thread {
         }
     }
 
+    /**
+     * Wysyła wiadomość do jednego klienta.
+     * @param msg wiadomość do wysłania
+     */
     private void sendToOne(Message msg) {
         for (ClientThread client : clients) {
             if (client.getNick().equals(msg.getTo()) || client.getNick().equals(msg.getFrom())) {
