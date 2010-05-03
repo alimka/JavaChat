@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author delor
+ * @author Bartłomiej Piech
  */
 public class ClientThread extends Thread {
 

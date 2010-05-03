@@ -5,12 +5,9 @@ import java.io.IOException;
 
 /**
  *
- * @author delor
+ * @author Bartłomiej Piech
  */
-public class ServerJFrame extends javax.swing.JFrame implements ServerInterface {
-
-    private ServerThread server;
-    private boolean connected = false;
+public class ServerJFrame extends javax.swing.JFrame implements ServerGUI {
 
     /** Creates new form ServerJFrame */
     public ServerJFrame() {
@@ -25,7 +22,7 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerInterface 
         jTextArea = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList = new javax.swing.JList();
-        jButton = new javax.swing.JButton();
+        connectButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Serwer");
@@ -42,36 +39,24 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerInterface 
 
         getContentPane().add(jScrollPane2, java.awt.BorderLayout.EAST);
 
-        jButton.setText("Connect");
-        jButton.addActionListener(new java.awt.event.ActionListener() {
+        connectButton.setText("Connect");
+        connectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonActionPerformed(evt);
+                connectButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton, java.awt.BorderLayout.NORTH);
+        getContentPane().add(connectButton, java.awt.BorderLayout.NORTH);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActionPerformed
+    private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
         if (!connected) {
-            try {
-            server = new ServerThread(port, this);
-            server.start();
-            jTextArea.append("Server online\n");
-            jButton.setText("Disconnect");
-            connected = true;
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
-        }
+            connect();
         } else {
-            server.interrupt();
-            server = null;
-            jTextArea.append("Server offline\n");
-            jButton.setText("Connect");
-            connected = false;
+            disconnect();
         }
-    }//GEN-LAST:event_jButtonActionPerformed
+    }//GEN-LAST:event_connectButtonActionPerformed
 
     /**
      *
@@ -86,13 +71,35 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerInterface 
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton;
+    private javax.swing.JButton connectButton;
     private javax.swing.JList jList;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea;
     // End of variables declaration//GEN-END:variables
     private int port = 6666;
+    private ServerThread serverThread;
+    private boolean connected = false;
+
+    private void connect() {
+        try {
+            serverThread = new ServerThread(port, this);
+            serverThread.start();
+            jTextArea.append("Server online\n");
+            connectButton.setText("Disconnect");
+            connected = true;
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+
+    private void disconnect() {
+        serverThread.disconnect();
+        serverThread = null;
+        jTextArea.append("Server offline\n");
+        connectButton.setText("Connect");
+        connected = false;
+    }
 
     /**
      * Wyświetla odpowiednio sformatowaną wiadomość w oknie.
