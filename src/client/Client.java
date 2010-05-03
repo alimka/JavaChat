@@ -49,8 +49,8 @@ public class Client extends Thread {
      */
     public void disconnect() {
         try {
-            in.close();
             out.close();
+            in.close();
             socket.close();
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);

@@ -144,8 +144,17 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
                 Logger.getLogger(ClientChatFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            client.disconnect();
-            connectButton.setText("Connect");
+            try {
+                Message m = new Message(nick);
+                m.setFrom(null);
+                m.setTo(nick);
+                m.setMessage(null);
+                client.sendMessage(m);
+                client.disconnect();
+                connectButton.setText("Connect");
+            } catch (IOException ex) {
+                Logger.getLogger(ClientChatFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_connectButtonActionPerformed
 
@@ -211,6 +220,7 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
     public void removeUser(String userNick) {
         for (int i = 0; i < listModel.getSize(); ++i) {
             if (userNick.compareTo((String) listModel.get(i)) == 0) {
+                System.out.println(userNick + " " + listModel.get(i));
                 listModel.remove(i);
                 break;
             }
