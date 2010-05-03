@@ -19,14 +19,14 @@ public class Client extends Thread {
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
-    private MsgClientInterface gui;
+    private ClientGUI gui;
 
     /**
      *
      * @param host
      * @param gui
      */
-    public Client(String host, int port, MsgClientInterface gui) {
+    public Client(String host, int port, ClientGUI gui) {
         try {
             this.gui = gui;
             InetAddress addr = InetAddress.getByName(host);

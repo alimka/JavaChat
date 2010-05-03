@@ -6,7 +6,7 @@ import clientserver.Message;
  *
  * @author Kamila Turek
  */
-public interface MsgClientInterface {
+public interface ClientGUI {
 
     /**
      *

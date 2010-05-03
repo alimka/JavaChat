@@ -17,7 +17,7 @@ import javax.swing.text.StyledDocument;
  *
  * @author Kamila Turek
  */
-public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInterface {
+public class ClientChatFrame extends javax.swing.JFrame implements ClientGUI {
 
     /** Creates new form ClientChatFrame */
     public ClientChatFrame() {
