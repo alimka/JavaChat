@@ -22,6 +22,5 @@ public interface MsgClientInterface {
     public void showUsers(Vector<String> clientNicks);
     public void addUser(String userNick);
     public void removeUser(String userNick);
-    public void pomUserList();
 
 }

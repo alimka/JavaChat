@@ -12,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 // import javax.print.attribute.AttributeSet;
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 import javax.swing.text.MutableAttributeSet;
@@ -28,7 +27,6 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
     /** Creates new form ClientChatFrame */
     public ClientChatFrame() {
         initComponents();
-        pomUserList();
         font = new Font("Serif", Font.BOLD, 14);
         setDefaultJTextPaneFont(colorTextPane, font);
         listModel = new DefaultListModel();
@@ -67,11 +65,8 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
         colorTextPane = new client.ColorTextPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList = new javax.swing.JList();
+        connectButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        connectMI = new javax.swing.JMenuItem();
-        disconnectMI = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Chat");
@@ -91,29 +86,13 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
 
         getContentPane().add(jScrollPane2, java.awt.BorderLayout.LINE_END);
 
-        jMenu1.setText("File");
-
-        connectMI.setText("Connect");
-        connectMI.addActionListener(new java.awt.event.ActionListener() {
+        connectButton.setText("Connect");
+        connectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                connectMIActionPerformed(evt);
+                connectButtonActionPerformed(evt);
             }
         });
-        jMenu1.add(connectMI);
-
-        disconnectMI.setText("Disconnect");
-        disconnectMI.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                disconnectMIActionPerformed(evt);
-            }
-        });
-        jMenu1.add(disconnectMI);
-
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
-
+        getContentPane().add(connectButton, java.awt.BorderLayout.PAGE_START);
         setJMenuBar(jMenuBar1);
 
         pack();
@@ -149,25 +128,26 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
         }
     }//GEN-LAST:event_jTextFieldKeyPressed
 
-    private void connectMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectMIActionPerformed
+    private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
+        if(!connect) {
+            String host = (String) JOptionPane.showInputDialog(this, "Podaj adres serwera", null, JOptionPane.PLAIN_MESSAGE, null, null, "127.0.0.1");
+            client = new Client(host, this);
+            client.start();
 
-        String host = (String) JOptionPane.showInputDialog(this, "Podaj adres serwera", null, JOptionPane.PLAIN_MESSAGE, null, null, "127.0.0.1");
-        client = new Client(host, this);
-        client.start();
-
-        System.out.println("asd");
-        nick = (String) JOptionPane.showInputDialog(this, "Podaj nick", JOptionPane.PLAIN_MESSAGE);
-        setTitle("Client: " + nick);
-        try {
-            client.sendMessage(new Message(nick));
-        } catch (IOException ex) {
-            Logger.getLogger(ClientChatFrame.class.getName()).log(Level.SEVERE, null, ex);
+            nick = (String) JOptionPane.showInputDialog(this, "Podaj nick", JOptionPane.PLAIN_MESSAGE);
+            connectButton.setText("Disconnect");
+            setTitle("Client: " + nick);
+            connect = true;
+            try {
+                client.sendMessage(new Message(nick));
+            } catch (IOException ex) {
+                Logger.getLogger(ClientChatFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            client.disconnect();
+            connectButton.setText("Connect");
         }
-    }//GEN-LAST:event_connectMIActionPerformed
-
-    private void disconnectMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectMIActionPerformed
-        client.disconnect();
-    }//GEN-LAST:event_disconnectMIActionPerformed
+    }//GEN-LAST:event_connectButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -182,12 +162,9 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private client.ColorTextPane colorTextPane;
-    private javax.swing.JMenuItem connectMI;
-    private javax.swing.JMenuItem disconnectMI;
+    private javax.swing.JButton connectButton;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JList jList;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -201,6 +178,7 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
     private Client client;
     private Font font;
     private DefaultListModel listModel;
+    boolean connect = false;
 
     /**
      *

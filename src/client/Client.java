@@ -39,7 +39,6 @@ public class Client extends Thread {
             socket = new Socket(addr, port);
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
-            gui.pomUserList();
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
