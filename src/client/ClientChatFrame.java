@@ -1,15 +1,12 @@
 package client;
 
 import clientserver.Message;
-import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory.Default;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,13 +14,9 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextPane;
-import javax.swing.text.AttributeSet;
 import javax.swing.text.MutableAttributeSet;
-import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
 /**
@@ -38,6 +31,7 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
     /** Creates new form ClientChatFrame */
     public ClientChatFrame() {
         initComponents();
+        pomUserList();
         font = new Font("Serif", Font.BOLD, 14);
         setDefaultJTextPaneFont(colorTextPane, font);
     }
@@ -237,9 +231,15 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
         }
     }
 
-    public void addUsers(String userNick) {
+    public void pomUserList() {
+        Vector<String> clientNicks = new Vector<String>();
+        showUsers(clientNicks);
+    }
+
+    public void addUser(String userNick) {
         int pos = model.getSize();
         model.add(pos, userNick);
+        jList = new JList(model);
     }
 
     public void removeUser(String userNick) {
@@ -249,6 +249,7 @@ public class ClientChatFrame extends javax.swing.JFrame implements MsgClientInte
                 break;
             }
         }
+        jList = new JList(model);
     }
 
 }

@@ -40,6 +40,7 @@ public class Client extends Thread {
             socket = new Socket(addr, port);
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
+            gui.pomUserList();
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -63,7 +64,17 @@ public class Client extends Thread {
         while (true) {
             try {
                 Message msg = (Message) in.readObject();
-                gui.showMessage(msg);
+                switch (msg.type()) {
+                    case JOIN:
+                        gui.addUser(msg.getFrom());
+                    case LEAVE:
+                        gui.removeUser(msg.getTo());
+                    case PRIVATE:
+                        gui.showMessage(msg);
+                    case PUBLIC:
+                        gui.showMessage(msg);
+                }
+                
             } catch (EOFException ex) {
                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
