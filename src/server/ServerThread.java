@@ -1,6 +1,6 @@
 package server;
 
-import clientserver.Message;
+import clientserver.Packet;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -32,9 +32,9 @@ public class ServerThread extends Thread {
                 clients.add(client);
                 client.start();
                 System.out.println("Dołączył klient " + client.toString());
-                Message msg = new Message();
-                msg.setMessage(serverGUI.getUsersList());
-                client.send(msg);
+                Packet pack = new Packet();
+                pack.setMessage(serverGUI.getUsersList());
+                client.send(pack);
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }
@@ -53,22 +53,22 @@ public class ServerThread extends Thread {
 
     /**
      *
-     * @param msg wiadomość do wysłania
+     * @param pack wiadomość do wysłania
      */
-    public synchronized void processMessage(Message msg) {
-        serverGUI.processMessage(msg);
-        switch (msg.type()) {
+    public synchronized void processPacket(Packet pack) {
+        serverGUI.processPacket(pack);
+        switch (pack.type()) {
             case JOIN:
-                sendToAll(msg);
+                sendToAll(pack);
                 break;
             case LEAVE:
-                sendToAll(msg);
+                sendToAll(pack);
                 break;
             case PRIVATE:
-                sendToOne(msg);
+                sendToOne(pack);
                 break;
             case PUBLIC:
-                sendToAll(msg);
+                sendToAll(pack);
                 break;
             case UNKNOWN:
                 break;
@@ -81,22 +81,22 @@ public class ServerThread extends Thread {
 
     /**
      * Wysyła wiadomość do wszystkich klientów.
-     * @param msg wiadomość do wysłania
+     * @param pack wiadomość do wysłania
      */
-    private void sendToAll(Message msg) {
+    private void sendToAll(Packet pack) {
         for (ClientThread client : clients) {
-            client.send(msg);
+            client.send(pack);
         }
     }
 
     /**
      * Wysyła wiadomość do jednego klienta.
-     * @param msg wiadomość do wysłania
+     * @param pack wiadomość do wysłania
      */
-    private void sendToOne(Message msg) {
+    private void sendToOne(Packet pack) {
         for (ClientThread client : clients) {
-            if (client.getNick().equals(msg.getTo()) || client.getNick().equals(msg.getFrom())) {
-                client.send(msg);
+            if (client.getNick().equals(pack.to()) || client.getNick().equals(pack.from())) {
+                client.send(pack);
             }
         }
     }

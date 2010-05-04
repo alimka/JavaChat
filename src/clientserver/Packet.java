@@ -6,104 +6,104 @@ import java.io.Serializable;
  *
  * @author delor
  */
-public class Message implements Serializable {
+public class Packet implements Serializable {
 
-    public static enum MessageType {
+    public static enum Type {
 
         JOIN, LEAVE, PRIVATE, PUBLIC, DISCONNECT, USERLIST, UNKNOWN
     }
-    private String from = null;
-    private String to = null;
-    private String message = null;
+    private String _from = null;
+    private String _to = null;
+    private String _message = null;
 
-    public Message() {
+    public Packet() {
     }
 
-    public Message(String from) {
-        this.from = from;
+    public Packet(String from) {
+        this._from = from;
     }
 
-    public Message(String from, String to) {
-        this.from = from;
-        this.to = to;
+    public Packet(String from, String to) {
+        this._from = from;
+        this._to = to;
     }
 
     /**
      * Zwraca nazwę nadawcy wiadomości.
      * @return adresat
      */
-    public String getFrom() {
-        return from;
+    public String from() {
+        return _from;
     }
 
     /**
      * Ustawia nazwę nadawcy wiadomości.
-     * @param from adresat
+     * @param _from adresat
      */
     public void setFrom(String from) {
-        this.from = from;
+        this._from = from;
     }
 
     /**
      * Zwraca treść wiadomości.
      * @return treść wiadomości
      */
-    public String getMessage() {
-        return message;
+    public String message() {
+        return _message;
     }
 
     /**
      * Ustawia treść wiadomości.
-     * @param message treść wiadomości
+     * @param _message treść wiadomości
      */
     public void setMessage(String message) {
-        this.message = message;
+        this._message = message;
     }
 
     /**
      * Zwraca nazwę adresata wiadomości.
      * @return nazwa adresata wiadomości
      */
-    public String getTo() {
-        return to;
+    public String to() {
+        return _to;
     }
 
     /**
      * Ustawia nazwę adresata wiadomości.
-     * @param to nazwa adresata wiadomości
+     * @param _to nazwa adresata wiadomości
      */
     public void setTo(String to) {
-        this.to = to;
+        this._to = to;
     }
 
     @Override
     public String toString() {
-        return "From: " + from + ", To: " + to + ", Msg: " + message;
+        return "From: " + _from + ", To: " + _to + ", Msg: " + _message;
     }
 
     /**
      * Zwraca typ wiadomości.
      * @return typ wiadomości
      */
-    public MessageType type() {
-        if (from != null && to == null && message == null) {
-            return MessageType.JOIN;
+    public Type type() {
+        if (_from != null && _to == null && _message == null) {
+            return Type.JOIN;
         }
-        if (from == null && to != null && message == null) {
-            return MessageType.LEAVE;
+        if (_from == null && _to != null && _message == null) {
+            return Type.LEAVE;
         }
-        if (from != null && to == null && message != null) {
-            return MessageType.PUBLIC;
+        if (_from != null && _to == null && _message != null) {
+            return Type.PUBLIC;
         }
-        if (from != null && to != null && message != null) {
-            return MessageType.PRIVATE;
+        if (_from != null && _to != null && _message != null) {
+            return Type.PRIVATE;
         }
-        if (from == null && to == null && message == null) {
-            return MessageType.DISCONNECT;
+        if (_from == null && _to == null && _message == null) {
+            return Type.DISCONNECT;
         }
-        if (from == null && to == null && message != null) {
-            return MessageType.USERLIST;
+        if (_from == null && _to == null && _message != null) {
+            return Type.USERLIST;
         }
-        return MessageType.UNKNOWN;
+        return Type.UNKNOWN;
     }
 }
