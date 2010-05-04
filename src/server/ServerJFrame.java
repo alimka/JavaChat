@@ -1,6 +1,6 @@
 package server;
 
-import clientserver.Message;
+import clientserver.Packet;
 import java.io.IOException;
 import java.util.Enumeration;
 import javax.swing.DefaultListModel;
@@ -105,38 +105,38 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerGUI {
         connected = false;
     }
 
-    public void processMessage(Message msg) {
-        printMessage(msg);
-        switch(msg.type()) {
+    public void processPacket(Packet pack) {
+        printMessage(pack);
+        switch(pack.type()) {
             case JOIN:
-                addUser(msg.getFrom());
+                addUser(pack.from());
                 break;
             case LEAVE:
-                removeUser(msg.getTo());
+                removeUser(pack.to());
                 break;
         }
     }
 
     /**
      * Wyświetla odpowiednio sformatowaną wiadomość w oknie.
-     * @param msg wiadomosc do wyświetlenia w oknie
+     * @param pack wiadomosc do wyświetlenia w oknie
      */
-    public void printMessage(Message msg) {
-        switch (msg.type()) {
+    public void printMessage(Packet pack) {
+        switch (pack.type()) {
             case JOIN:
-                jTextArea.append("Użyszkodnik " + msg.getFrom() + " dołączył do chatu\n");
+                jTextArea.append("Użyszkodnik " + pack.from() + " dołączył do chatu\n");
                 break;
             case LEAVE:
-                jTextArea.append("Użytkownik " + msg.getTo() + " opuścił chat\n");
+                jTextArea.append("Użytkownik " + pack.to() + " opuścił chat\n");
                 break;
             case PRIVATE:
-                jTextArea.append(msg.getFrom() + " -> " + msg.getTo() + ": " + msg.getMessage() + "\n");
+                jTextArea.append(pack.from() + " -> " + pack.to() + ": " + pack.message() + "\n");
                 break;
             case PUBLIC:
-                jTextArea.append(msg.getFrom() + ": " + msg.getMessage() + "\n");
+                jTextArea.append(pack.from() + ": " + pack.message() + "\n");
                 break;
             case UNKNOWN:
-                jTextArea.append("ERROR Nieznany format wiadomości: " + msg.toString() + "\n");
+                jTextArea.append("ERROR Nieznany format wiadomości: " + pack.toString() + "\n");
                 break;
         }
     }

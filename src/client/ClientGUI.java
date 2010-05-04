@@ -1,6 +1,6 @@
 package client;
 
-import clientserver.Message;
+import clientserver.Packet;
 
 /**
  *
@@ -10,9 +10,9 @@ public interface ClientGUI {
 
     /**
      *
-     * @param msg
+     * @param pack
      */
-    public void showMessage(Message msg);
+    public void showMessage(Packet pack);
 
     public void showUsers(String users);
 
