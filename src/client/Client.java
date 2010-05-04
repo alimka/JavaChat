@@ -1,6 +1,6 @@
 package client;
 
-import clientserver.Message;
+import clientserver.Packet;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -55,24 +55,24 @@ public class Client extends Thread {
     public void run() {
         while (true) {
             try {
-                Message msg = (Message) in.readObject();
-                switch (msg.type()) {
+                Packet pack = (Packet) in.readObject();
+                switch (pack.type()) {
                     case JOIN:
-                        gui.addUser(msg.getFrom());
+                        gui.addUser(pack.from());
                         System.out.println("JOIN");
                         break;
                     case LEAVE:
-                        gui.removeUser(msg.getTo());
+                        gui.removeUser(pack.to());
                         System.out.println("LEAVE");
                         break;
                     case PRIVATE:
-                        gui.showMessage(msg);
+                        gui.showMessage(pack);
                         break;
                     case PUBLIC:
-                        gui.showMessage(msg);
+                        gui.showMessage(pack);
                         break;
                     case USERLIST:
-                        gui.showUsers(msg.getMessage());
+                        gui.showUsers(pack.message());
                         break;
                     case DISCONNECT:
                         disconnect();
@@ -90,10 +90,10 @@ public class Client extends Thread {
 
     /**
      *
-     * @param msg
+     * @param pack
      * @throws IOException
      */
-    public void sendMessage(Message msg) throws IOException {
-        out.writeObject(msg);
+    public synchronized void send(Packet pack) throws IOException {
+        out.writeObject(pack);
     }
 }

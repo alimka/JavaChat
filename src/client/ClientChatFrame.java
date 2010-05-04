@@ -1,6 +1,6 @@
 package client;
 
-import clientserver.Message;
+import clientserver.Packet;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
@@ -99,21 +99,21 @@ public class ClientChatFrame extends javax.swing.JFrame implements ClientGUI {
     private void jTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldKeyPressed
         if (evt.getKeyCode() == 10) {
             try {
-                String msg = jTextField.getText();
-                Message m = new Message(nick);
+                String txt = jTextField.getText();
+                Packet m = new Packet(nick);
                 String[] p;
-                if (msg.startsWith("/msg")) {
-                    p = msg.split(" ", 3);
+                if (txt.startsWith("/msg")) {
+                    p = txt.split(" ", 3);
                     for (String s : p) {
                         System.out.println(s);
                     }
                     m.setTo(p[1]);
                     m.setMessage(p[2]);
                 } else {
-                    m.setMessage(msg);
+                    m.setMessage(txt);
                 }
                 System.out.println(m.toString());
-                client.sendMessage(m);
+                client.send(m);
                 jTextField.setText("");
             } catch (IOException ex) {
                 // Logger.getLogger(ClientChatFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -138,15 +138,15 @@ public class ClientChatFrame extends javax.swing.JFrame implements ClientGUI {
             setTitle("Client: " + nick);
             connect = true;
             try {
-                client.sendMessage(new Message(nick));
+                client.send(new Packet(nick));
             } catch (IOException ex) {
                 Logger.getLogger(ClientChatFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             try {
-                Message m = new Message();
+                Packet m = new Packet();
                 m.setTo(nick);
-                client.sendMessage(m);
+                client.send(m);
                 client.disconnect();
                 connect = false;
                 connectButton.setText("Connect");
@@ -185,11 +185,11 @@ public class ClientChatFrame extends javax.swing.JFrame implements ClientGUI {
 
     /**
      *
-     * @param msg
+     * @param txt
      */
-    public void showMessage(Message msg) {
-        String txt = msg.getFrom() + ": " + msg.getMessage() + "\n";
-        if (msg.type() == Message.MessageType.PRIVATE) {
+    public void showMessage(Packet pack) {
+        String txt = pack.from() + ": " + pack.message() + "\n";
+        if (pack.type() == Packet.Type.PRIVATE) {
             colorTextPane.append(Color.blue, txt);
         } else {
             colorTextPane.append(Color.black, txt);

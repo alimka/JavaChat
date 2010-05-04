@@ -1,6 +1,6 @@
 package server;
 
-import clientserver.Message;
+import clientserver.Packet;
 
 /**
  *
@@ -8,9 +8,9 @@ import clientserver.Message;
  */
 public interface ServerGUI {
 
-    public void processMessage(Message msg);
+    public void processPacket(Packet pack);
 
-    public void printMessage(Message msg);
+    public void printMessage(Packet pack);
 
     public String getUsersList();
 

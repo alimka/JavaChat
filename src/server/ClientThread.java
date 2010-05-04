@@ -1,6 +1,6 @@
 package server;
 
-import clientserver.Message;
+import clientserver.Packet;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -40,10 +40,10 @@ public class ClientThread extends Thread {
     public void run() {
         try {
             while (!interrupted()) {
-                Message message = (Message) in.readObject();
+                Packet pack = (Packet) in.readObject();
                 System.out.println("odebrano wiadomosc");
-                nick = message.getFrom();
-                server.processMessage(message);
+                nick = pack.from();
+                server.processPacket(pack);
             }
         } catch (IOException ex) {
             Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
@@ -72,9 +72,9 @@ public class ClientThread extends Thread {
      * Wysyła wiadomość do klienta.
      * @param msg wiadomość do wysłania
      */
-    public synchronized void send(Message msg) {
+    public synchronized void send(Packet pack) {
         try {
-            out.writeObject(msg);
+            out.writeObject(pack);
         } catch (IOException ex) {
         }
     }
