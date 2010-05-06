@@ -1,4 +1,4 @@
-package client;
+package clientserver;
 
 import java.awt.Color;
 import javax.swing.JTextPane;
