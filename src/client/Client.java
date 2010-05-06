@@ -47,7 +47,7 @@ public class Client extends Thread {
             in.close();
             socket.close();
         } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Disconnect");
         }
     }
 
@@ -79,11 +79,11 @@ public class Client extends Thread {
                         break;
                 }
             } catch (EOFException ex) {
-                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("EOFException");
             } catch (IOException ex) {
-                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("IOException");
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("ClassNotFoundEx");
             }
         }
     }

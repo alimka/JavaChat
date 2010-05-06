@@ -206,7 +206,10 @@ public class ClientChatFrame extends javax.swing.JFrame implements ClientGUI {
     }
 
     public void addUser(String user) {
+        colorTextPane.append(Color.gray, "Uzytkownik " + user + " dołączył do czatu\n");
         listModel.addElement(user);
+        font = new Font("Serif", Font.BOLD, 14);
+        setDefaultJTextPaneFont(colorTextPane, font);
     }
 
     public void removeUser(String user) {
@@ -217,5 +220,8 @@ public class ClientChatFrame extends javax.swing.JFrame implements ClientGUI {
                 break;
             }
         }
+        colorTextPane.append(Color.gray, "Uzytkownik " + user + " opuścił czat\n");
+        font = new Font("Serif", Font.BOLD, 14);
+        setDefaultJTextPaneFont(colorTextPane, font);
     }
 }
