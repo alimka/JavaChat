@@ -1,6 +1,6 @@
 package server;
 
-import clientserver.Packet;
+import common.Packet;
 import java.io.IOException;
 import java.util.Enumeration;
 import javax.swing.DefaultListModel;
@@ -9,10 +9,10 @@ import javax.swing.DefaultListModel;
  *
  * @author Bartłomiej Piech
  */
-public class ServerJFrame extends javax.swing.JFrame implements ServerGUI {
+public class ServerChatFrame extends javax.swing.JFrame implements ServerGUI {
 
-    /** Creates new form ServerJFrame */
-    public ServerJFrame() {
+    /** Creates new form ServerChatFrame */
+    public ServerChatFrame() {
         initComponents();
         jList.setModel(listModel);
     }
@@ -69,7 +69,7 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerGUI {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new ServerJFrame().setVisible(true);
+                new ServerChatFrame().setVisible(true);
             }
         });
     }
@@ -107,7 +107,7 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerGUI {
 
     public void processPacket(Packet pack) {
         printMessage(pack);
-        switch(pack.type()) {
+        switch (pack.type()) {
             case JOIN:
                 addUser(pack.from());
                 break;
@@ -165,8 +165,9 @@ public class ServerJFrame extends javax.swing.JFrame implements ServerGUI {
     public String getUsersList() {
         Enumeration<String> users = (Enumeration<String>) listModel.elements();
         StringBuilder usersList = new StringBuilder();
-        while (users.hasMoreElements())
+        while (users.hasMoreElements()) {
             usersList.append(users.nextElement() + ",");
+        }
         return usersList.toString();
     }
 }

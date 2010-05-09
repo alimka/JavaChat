@@ -1,6 +1,6 @@
 
 import client.ClientChatFrame;
-import server.ServerJFrame;
+import server.ServerChatFrame;
 
 /**
  *
@@ -17,7 +17,7 @@ public class TestRun {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                ServerJFrame server = new ServerJFrame();
+                ServerChatFrame server = new ServerChatFrame();
                 server.setLocation(0, 0);
                 server.setVisible(true);
                 ClientChatFrame clientA = new ClientChatFrame();

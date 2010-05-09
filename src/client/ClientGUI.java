@@ -1,6 +1,6 @@
 package client;
 
-import clientserver.Packet;
+import common.Packet;
 
 /**
  *

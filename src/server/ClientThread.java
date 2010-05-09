@@ -1,6 +1,6 @@
 package server;
 
-import clientserver.Packet;
+import common.Packet;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -44,18 +44,21 @@ public class ClientThread extends Thread {
                 System.out.println("odebrano wiadomosc");
                 nick = pack.from();
                 server.processPacket(pack);
+                if (pack.type() == Packet.Type.DISCONNECT) {
+                    break;
+                }
             }
         } catch (IOException ex) {
-            Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex.getMessage());
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex.getMessage());
         } finally {
             try {
                 out.close();
                 in.close();
                 socket.close();
             } catch (IOException ex) {
-                Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println(ex.getMessage());
             }
         }
     }
