@@ -1,6 +1,6 @@
 package client;
 
-import clientserver.Packet;
+import common.Packet;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -53,8 +53,9 @@ public class Client extends Thread {
 
     @Override
     public void run() {
-        while (true) {
-            try {
+
+        try {
+            while (true) {
                 Packet pack = (Packet) in.readObject();
                 switch (pack.type()) {
                     case JOIN:
@@ -78,13 +79,13 @@ public class Client extends Thread {
                         disconnect();
                         break;
                 }
-            } catch (EOFException ex) {
-                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } catch (EOFException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

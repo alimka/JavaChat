@@ -1,6 +1,6 @@
 package client;
 
-import clientserver.Packet;
+import common.Packet;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
@@ -57,7 +57,7 @@ public class ClientChatFrame extends javax.swing.JFrame implements ClientGUI {
         jDialog1 = new javax.swing.JDialog();
         jTextField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        colorTextPane = new client.ColorTextPane();
+        colorTextPane = new common.ColorTextPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList = new javax.swing.JList();
         connectButton = new javax.swing.JButton();
@@ -133,7 +133,8 @@ public class ClientChatFrame extends javax.swing.JFrame implements ClientGUI {
             client = new Client(host, port, this);
             client.start();
 
-            nick = (String) JOptionPane.showInputDialog(this, "Podaj nick", JOptionPane.PLAIN_MESSAGE);
+            nick = (String) JOptionPane.showInputDialog(this, "Podaj nick",
+                    JOptionPane.PLAIN_MESSAGE);
             connectButton.setText("Disconnect");
             setTitle("Client: " + nick);
             connect = true;
@@ -168,7 +169,7 @@ public class ClientChatFrame extends javax.swing.JFrame implements ClientGUI {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private client.ColorTextPane colorTextPane;
+    private common.ColorTextPane colorTextPane;
     private javax.swing.JButton connectButton;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JList jList;

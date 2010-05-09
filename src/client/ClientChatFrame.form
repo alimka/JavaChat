@@ -57,7 +57,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="client.ColorTextPane" name="colorTextPane">
+        <Component class="common.ColorTextPane" name="colorTextPane">
         </Component>
       </SubComponents>
     </Container>
