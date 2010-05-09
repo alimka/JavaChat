@@ -1,6 +1,7 @@
 package server;
 
 import common.Packet;
+import java.awt.Color;
 import java.io.IOException;
 import java.util.Enumeration;
 import javax.swing.DefaultListModel;
@@ -21,20 +22,14 @@ public class ServerChatFrame extends javax.swing.JFrame implements ServerGUI {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList = new javax.swing.JList();
         connectButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textArea = new common.ColorTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Serwer");
-
-        jTextArea.setColumns(20);
-        jTextArea.setRows(5);
-        jScrollPane1.setViewportView(jTextArea);
-
-        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jScrollPane2.setPreferredSize(new java.awt.Dimension(50, 131));
 
@@ -49,6 +44,14 @@ public class ServerChatFrame extends javax.swing.JFrame implements ServerGUI {
             }
         });
         getContentPane().add(connectButton, java.awt.BorderLayout.NORTH);
+
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(300, 22));
+
+        textArea.setEditable(false);
+        textArea.setMinimumSize(new java.awt.Dimension(200, 20));
+        jScrollPane1.setViewportView(textArea);
+
+        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -78,7 +81,7 @@ public class ServerChatFrame extends javax.swing.JFrame implements ServerGUI {
     private javax.swing.JList jList;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea;
+    private common.ColorTextPane textArea;
     // End of variables declaration//GEN-END:variables
     private int port = 6666;
     private ServerThread serverThread;
@@ -89,7 +92,7 @@ public class ServerChatFrame extends javax.swing.JFrame implements ServerGUI {
         try {
             serverThread = new ServerThread(port, this);
             serverThread.start();
-            jTextArea.append("Server online\n");
+            textArea.append(Color.blue, "Server online\n");
             connectButton.setText("Disconnect");
             connected = true;
         } catch (IOException ex) {
@@ -100,7 +103,7 @@ public class ServerChatFrame extends javax.swing.JFrame implements ServerGUI {
     private void disconnect() {
         serverThread.disconnect();
         serverThread = null;
-        jTextArea.append("Server offline\n");
+        textArea.append(Color.blue, "Server offline\n");
         connectButton.setText("Connect");
         connected = false;
     }
@@ -124,19 +127,19 @@ public class ServerChatFrame extends javax.swing.JFrame implements ServerGUI {
     public void printMessage(Packet pack) {
         switch (pack.type()) {
             case JOIN:
-                jTextArea.append("Użyszkodnik " + pack.from() + " dołączył do chatu\n");
+                textArea.append(Color.green, "Użyszkodnik " + pack.from() + " dołączył do chatu\n");
                 break;
             case LEAVE:
-                jTextArea.append("Użytkownik " + pack.to() + " opuścił chat\n");
+                textArea.append(Color.red, "Użytkownik " + pack.to() + " opuścił chat\n");
                 break;
             case PRIVATE:
-                jTextArea.append(pack.from() + " -> " + pack.to() + ": " + pack.message() + "\n");
+                textArea.append(Color.black, pack.from() + " -> " + pack.to() + ": " + pack.message() + "\n");
                 break;
             case PUBLIC:
-                jTextArea.append(pack.from() + ": " + pack.message() + "\n");
+                textArea.append(Color.black, pack.from() + ": " + pack.message() + "\n");
                 break;
             case UNKNOWN:
-                jTextArea.append("ERROR Nieznany format wiadomości: " + pack.toString() + "\n");
+                textArea.append(Color.red, "ERROR Nieznany format wiadomości: " + pack.toString() + "\n");
                 break;
         }
     }
