@@ -74,7 +74,6 @@ public class ClientChatFrame extends javax.swing.JFrame implements ClientGUI {
         });
         getContentPane().add(jTextField, java.awt.BorderLayout.PAGE_END);
 
-        colorTextPane.setEditable(false);
         colorTextPane.setMinimumSize(new java.awt.Dimension(300, 6));
         jScrollPane1.setViewportView(colorTextPane);
 

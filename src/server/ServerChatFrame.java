@@ -47,7 +47,6 @@ public class ServerChatFrame extends javax.swing.JFrame implements ServerGUI {
 
         jScrollPane1.setMinimumSize(new java.awt.Dimension(300, 22));
 
-        textArea.setEditable(false);
         textArea.setMinimumSize(new java.awt.Dimension(200, 20));
         jScrollPane1.setViewportView(textArea);
 
